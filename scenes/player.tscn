@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://3n5vw27gsvem"]
+
+[ext_resource type="Script" uid="uid://ddujw151dgv40" path="res://scripts/player.gd" id="1_3vyb7"]
+[ext_resource type="Shader" uid="uid://boqebco5rvd7a" path="res://scripts/post-processing.gdshader" id="2_g2els"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tx1dd"]
+radius = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gymyn"]
+radius = 0.4
+height = 1.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qhqgy"]
+shader = ExtResource("2_g2els")
+shader_parameter/exposure = 1.0
+shader_parameter/contrast = 1.05
+shader_parameter/saturation = 0.9
+shader_parameter/enable_pixelate = true
+shader_parameter/pixel_factor = 3.0
+shader_parameter/enable_posterize = true
+shader_parameter/color_levels = 16.0
+shader_parameter/dither_strength = 0.35
+shader_parameter/chrom_aberration = 0.07
+shader_parameter/vignette_strength = 1.0
+shader_parameter/grain_strength = 0.2
+shader_parameter/tint_color = Vector3(0.95, 1.03, 0.9)
+shader_parameter/tint_strength = 0.15
+shader_parameter/viewport_size_override = Vector2(0, 0)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_3vyb7")
+mouse_sens = 0.25
+head_bobbing_sprinting_intensity = 0.1
+head_bobbing_walking_intensity = 0.05
+
+[node name="standing_collision_shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tx1dd")
+debug_color = Color(0.5796675, 0.9507814, 1.1551381e-06, 1)
+
+[node name="chrouching_collision_shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6024717, 0)
+shape = SubResource("CapsuleShape3D_gymyn")
+disabled = true
+debug_color = Color(0, 0.79607844, 0.92941177, 1)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 2, 0)
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="eyes" type="Node3D" parent="Head"]
+
+[node name="Camera3D" type="Camera3D" parent="Head/eyes"]
+current = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Head/eyes/Camera3D"]
+
+[node name="ColorRect" type="ColorRect" parent="Head/eyes/Camera3D/CanvasLayer"]
+material = SubResource("ShaderMaterial_qhqgy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Hand" type="Node3D" parent="Head"]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Head/Hand"]
+shadow_enabled = true
+spot_range = 8.889385
+spot_angle = 32.737854
