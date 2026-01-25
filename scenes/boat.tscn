@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cafona0diiu4k"]
+
+[ext_resource type="PackedScene" uid="uid://ch2kpewl7tc1i" path="res://assets/ship.glb" id="1_0063d"]
+
+[node name="Boat" type="Node3D"]
+
+[node name="ship" parent="." instance=ExtResource("1_0063d")]

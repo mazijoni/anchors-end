@@ -58,6 +58,7 @@ current = true
 [node name="CanvasLayer" type="CanvasLayer" parent="Head/eyes/Camera3D"]
 
 [node name="ColorRect" type="ColorRect" parent="Head/eyes/Camera3D/CanvasLayer"]
+visible = false
 material = SubResource("ShaderMaterial_qhqgy")
 anchors_preset = 15
 anchor_right = 1.0

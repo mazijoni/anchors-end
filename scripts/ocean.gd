@@ -28,10 +28,9 @@ var time: float = 0.0
 var tile1_base_y: float = 0.0
 var tile2_base_y: float = 0.0
 
-# Noise for randomness
+# Noise for randomness (shared between both tiles)
 var noise = FastNoiseLite.new()
-var noise_offset1: float = 0.0
-var noise_offset2: float = 0.0
+var noise_offset: float = 0.0
 
 func _ready():
 	# Position the tiles in a line
@@ -47,45 +46,35 @@ func _ready():
 	noise.seed = randi()
 	noise.frequency = 0.5
 	
-	# Random starting offsets for each tile
-	noise_offset1 = randf() * 100.0
-	noise_offset2 = randf() * 100.0
+	# Single shared noise offset
+	noise_offset = randf() * 100.0
 
 func _process(delta):
 	time += delta
 	
-	# Base sine wave motion
-	var bob1_base = sin(time * bob_speed) * bob_height
-	var bob2_base = sin(time * bob_speed + 1.5) * bob_height
+	# Base sine wave motion (SHARED)
+	var bob_base = sin(time * bob_speed) * bob_height
+	var tilt_base = sin(time * tilt_speed) * tilt_amount
 	
-	var tilt1_base = sin(time * tilt_speed) * tilt_amount
-	var tilt2_base = sin(time * tilt_speed + 0.75) * tilt_amount
+	# Add random noise to the motion (SHARED)
+	var bob_noise = noise.get_noise_1d(time + noise_offset) * bob_height * randomness
+	var tilt_noise = noise.get_noise_1d(time * 0.7 + noise_offset) * tilt_amount * randomness
 	
-	# Add random noise to the motion
-	var bob1_noise = noise.get_noise_1d(time + noise_offset1) * bob_height * randomness
-	var bob2_noise = noise.get_noise_1d(time + noise_offset2) * bob_height * randomness
-	
-	var tilt1_noise = noise.get_noise_1d(time * 0.7 + noise_offset1) * tilt_amount * randomness
-	var tilt2_noise = noise.get_noise_1d(time * 0.7 + noise_offset2) * tilt_amount * randomness
-	
-	# Combine base motion with random variation
-	var bob1 = bob1_base + bob1_noise
-	var bob2 = bob2_base + bob2_noise
-	
-	var tilt1 = tilt1_base + tilt1_noise
-	var tilt2 = tilt2_base + tilt2_noise
+	# Combine base motion with random variation (SHARED)
+	var bob = bob_base + bob_noise
+	var tilt = tilt_base + tilt_noise
 	
 	# Move both tiles backward (creating forward movement illusion)
 	tile1.position.z -= scroll_speed * delta
 	tile2.position.z -= scroll_speed * delta
 	
-	# Apply bobbing effect
-	tile1.position.y = tile1_base_y + bob1
-	tile2.position.y = tile2_base_y + bob2
+	# Apply SAME bobbing effect to both tiles
+	tile1.position.y = tile1_base_y + bob
+	tile2.position.y = tile2_base_y + bob
 	
-	# Apply rotation (tilt around Z axis)
-	tile1.rotation.z = tilt1
-	tile2.rotation.z = tilt2
+	# Apply SAME rotation (tilt around Z axis) to both tiles
+	tile1.rotation.z = tilt
+	tile2.rotation.z = tilt
 	
 	# Check if tile1 has moved too far back
 	if tile1.position.z < -tile_length:
