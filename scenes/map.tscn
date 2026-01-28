@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bx8cdxcaijtch"]
+[gd_scene load_steps=18 format=3 uid="uid://bx8cdxcaijtch"]
 
 [ext_resource type="Script" uid="uid://cm2cypa43nx4q" path="res://scripts/shader.gd" id="1_2lpho"]
 [ext_resource type="Shader" uid="uid://duxgd11r867kf" path="res://scripts/sky.gdshader" id="2_nakos"]
@@ -7,6 +7,25 @@
 [ext_resource type="PackedScene" uid="uid://cafona0diiu4k" path="res://scenes/boat.tscn" id="6_2lpho"]
 [ext_resource type="Shader" uid="uid://bv762j8xskddx" path="res://scripts/water.gdshader" id="6_mlgqr"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2lpho"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nakos"]
+noise = SubResource("FastNoiseLite_2lpho")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jh32y"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_be0no"]
+noise = SubResource("FastNoiseLite_jh32y")
+seamless = true
+invert = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_blm8a"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mlgqr"]
+noise = SubResource("FastNoiseLite_blm8a")
+seamless = true
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j5jx5"]
 shader = ExtResource("2_nakos")
 shader_parameter/time_scale = 0.5
@@ -14,9 +33,18 @@ shader_parameter/base_color = Color(0.05, 0.05, 0.08, 1)
 shader_parameter/slime_color = Color(0.15, 0.15, 0.2, 1)
 shader_parameter/highlight_color = Color(0.3, 0.35, 0.4, 1)
 shader_parameter/tendril_density = 4.0
-shader_parameter/tendril_thickness = 0.3
-shader_parameter/animation_speed = 1.0
-shader_parameter/slime_wetness = 0.7
+shader_parameter/tendril_thickness = 0.2170000103075
+shader_parameter/animation_speed = 0.8210000389975
+shader_parameter/slime_wetness = 1.3250000629375
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_mlgqr")
+shader_parameter/detail_texture = SubResource("NoiseTexture2D_nakos")
+shader_parameter/highlight_texture = SubResource("NoiseTexture2D_be0no")
+shader_parameter/texture_scale = 0.36200001393512
+shader_parameter/lightning_color = Color(0.82941675, 0.8939333, 0.748547, 1)
+shader_parameter/lightning_frequency = 1.0
+shader_parameter/lightning_intensity = 1.0
+shader_parameter/lightning_branch_count = 5.0
+shader_parameter/lightning_thickness = 0.0030000001425
 
 [sub_resource type="Sky" id="Sky_lpvoh"]
 sky_material = SubResource("ShaderMaterial_j5jx5")
