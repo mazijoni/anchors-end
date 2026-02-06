@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bx8cdxcaijtch"]
+[gd_scene format=3 uid="uid://bx8cdxcaijtch"]
 
 [ext_resource type="Script" uid="uid://cm2cypa43nx4q" path="res://scripts/shader.gd" id="1_2lpho"]
 [ext_resource type="Shader" uid="uid://duxgd11r867kf" path="res://scripts/sky.gdshader" id="2_nakos"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://p1sp3gybsu3y" path="res://scripts/ocean.gd" id="5_blm8a"]
 [ext_resource type="PackedScene" uid="uid://cafona0diiu4k" path="res://scenes/boat.tscn" id="6_2lpho"]
 [ext_resource type="Shader" uid="uid://bv762j8xskddx" path="res://scripts/water.gdshader" id="6_mlgqr"]
+[ext_resource type="PackedScene" uid="uid://cg4tangalh7k2" path="res://scenes/death_zone.tscn" id="6_nakos"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2lpho"]
 
@@ -53,9 +54,9 @@ sky_material = SubResource("ShaderMaterial_j5jx5")
 background_mode = 2
 sky = SubResource("Sky_lpvoh")
 tonemap_mode = 2
-glow_enabled = true
 fog_enabled = true
 fog_light_color = Color(0.23438767, 0.2576339, 0.29380444, 1)
+fog_density = 0.002
 fog_aerial_perspective = 0.594
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bl13t"]
@@ -75,23 +76,25 @@ size = Vector2(5000, 5000)
 subdivide_width = 500
 subdivide_depth = 500
 
-[node name="Map" type="Node3D"]
+[node name="Map" type="Node3D" unique_id=366900070]
 script = ExtResource("1_2lpho")
 
-[node name="Env" type="Node3D" parent="."]
+[node name="Env" type="Node3D" parent="." unique_id=1789871575]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env"]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-light_color = Color(0.0035191667, 0.0035191681, 0.0035191672, 1)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env" unique_id=348552713]
+transform = Transform3D(-0.52565044, 0.5853265, -0.6173203, -0.78178763, -0.046266973, 0.6218258, 0.3354097, 0.80947655, 0.48192132, 0, 28.422312, 0)
+light_color = Color(0.93779707, 0.9431376, 0.8454826, 1)
+light_angular_distance = 8.26
+light_specular = 0.0
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Env"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env" unique_id=943782861]
 environment = SubResource("Environment_at5dv")
 
-[node name="Player" parent="." instance=ExtResource("4_be0no")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.04758954, 36.07201, -0.29036808)
+[node name="Player" parent="." unique_id=201448788 instance=ExtResource("4_be0no")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.04758954, 24.436415, -10.958018)
 
-[node name="Water" type="Node3D" parent="." node_paths=PackedStringArray("tile1", "tile2")]
+[node name="Water" type="Node3D" parent="." unique_id=1384433861 node_paths=PackedStringArray("tile1", "tile2")]
 script = ExtResource("5_blm8a")
 tile1 = NodePath("MeshInstance3D")
 tile2 = NodePath("MeshInstance3D2")
@@ -101,13 +104,15 @@ bob_height = 0.5
 tilt_amount = 0.04
 randomness = 0.4
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Water"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Water" unique_id=555730265]
 mesh = SubResource("PlaneMesh_iyx0m")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Water"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Water" unique_id=2135326973]
 mesh = SubResource("PlaneMesh_iyx0m")
 skeleton = NodePath("../..")
 
-[node name="Boat" parent="." instance=ExtResource("6_2lpho")]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+[node name="Death Zone" parent="Water" unique_id=1983801503 instance=ExtResource("6_nakos")]
+
+[node name="Boat" parent="." unique_id=1672465570 instance=ExtResource("6_2lpho")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 10.204365, 0)

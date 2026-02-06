@@ -1,7 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://cafona0diiu4k"]
+[gd_scene format=3 uid="uid://cafona0diiu4k"]
 
 [ext_resource type="PackedScene" uid="uid://ch2kpewl7tc1i" path="res://assets/ship.glb" id="1_0063d"]
+[ext_resource type="PackedScene" uid="uid://boh6qi3y25urf" path="res://scenes/room.tscn" id="2_qyrje"]
+[ext_resource type="PackedScene" uid="uid://beraxhjl8a54v" path="res://assets/ship-room.glb" id="3_lw6pk"]
 
-[node name="Boat" type="Node3D"]
+[node name="Boat" type="Node3D" unique_id=1672465570]
 
-[node name="ship" parent="." instance=ExtResource("1_0063d")]
+[node name="ship" parent="." unique_id=757107945 instance=ExtResource("1_0063d")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="room" parent="." unique_id=1600933973 instance=ExtResource("2_qyrje")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7228389, 14.186637, -11.62111)
+
+[node name="ship-room" parent="." unique_id=1190383204 instance=ExtResource("3_lw6pk")]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
