@@ -6,6 +6,7 @@ extends CharacterBody3D
 @onready var standing_collision_shape = $standing_collision_shape
 @onready var chrouching_collision_shape = $chrouching_collision_shape
 @onready var ray_cast_3d = $RayCast3D
+@onready var animation_player = $Head/eyes/PSX_First_Person_Arms/AnimationPlayer
 
 # Speed Vars
 @export var current_speed = 5.0
@@ -136,3 +137,34 @@ func _physics_process(delta: float) -> void:
 		eyes.rotation.z = lerp(eyes.rotation.z, 0.0, delta * lerp_spead)
 
 	move_and_slide()
+	_handle_animations()
+
+func _handle_animations():
+	# Check if player is in the air (jumping/falling)
+	if !is_on_floor():
+		if animation_player.current_animation != "jump":
+			animation_player.play("jump")
+	# Check if player is moving on the ground
+	elif direction.length() > 0.1:
+		# Sprinting animation
+		if sprinting:
+			if animation_player.current_animation != "sprint":
+				animation_player.play("sprint")
+		# Crouching walk animation
+		elif crouching:
+			if animation_player.current_animation != "crouch_walk":
+				animation_player.play("crouch_walk")
+		# Normal walking animation
+		else:
+			if animation_player.current_animation != "walk":
+				animation_player.play("walk")
+	# Standing still
+	else:
+		# Crouching idle
+		if crouching:
+			if animation_player.current_animation != "crouch_idle":
+				animation_player.play("crouch_idle")
+		# Normal idle
+		else:
+			if animation_player.current_animation != "idle":
+				animation_player.play("idle")
