@@ -24,6 +24,12 @@ var walking = false
 var sprinting = false
 var crouching = false
 
+# Punch vars
+var is_punching = false
+var next_punch_is_right = true
+var punch_reset_timer = 0.0
+@export var punch_reset_delay = 1.0
+
 # Head bobbing vars
 @export var head_bobbing_sprinting_speed = 22.0
 @export var head_bobbing_walking_speed = 14.0
@@ -43,6 +49,8 @@ var head_bobbing_current_intensity = 0.0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# Connect to animation finished signal
+	animation_player.animation_finished.connect(_on_animation_finished)
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -51,6 +59,16 @@ func _input(event):
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta: float) -> void:
+	# Handle punch input
+	if Input.is_action_just_pressed("punch") and !is_punching:
+		_play_punch()
+	
+	# Update punch reset timer
+	if !is_punching:
+		punch_reset_timer += delta
+		if punch_reset_timer >= punch_reset_delay:
+			next_punch_is_right = true
+	
 	# Handle Movement State
 	if Input.is_action_pressed("crouch"):
 		walking = false
@@ -137,13 +155,35 @@ func _physics_process(delta: float) -> void:
 		eyes.rotation.z = lerp(eyes.rotation.z, 0.0, delta * lerp_spead)
 
 	move_and_slide()
-	_handle_animations()
+	
+	# Only handle animations if not punching
+	if !is_punching:
+		_handle_animations()
+
+func _play_punch():
+	is_punching = true
+	punch_reset_timer = 0.0  # Reset the timer when punching
+	if next_punch_is_right:
+		animation_player.play("punch_right")
+	else:
+		animation_player.play("punch_left")
+	next_punch_is_right = !next_punch_is_right
+
+func _on_animation_finished(anim_name: String):
+	if anim_name == "punch_right" or anim_name == "punch_left":
+		is_punching = false
 
 func _handle_animations():
-	# Check if player is in the air (jumping/falling)
+	# Check if player is in the air
 	if !is_on_floor():
-		if animation_player.current_animation != "jump":
-			animation_player.play("jump")
+		# Falling animation (when moving downward)
+		if velocity.y < 0:
+			if animation_player.current_animation != "falling":
+				animation_player.play("falling")
+		# Jumping animation (when moving upward)
+		else:
+			if animation_player.current_animation != "jump":
+				animation_player.play("jump")
 	# Check if player is moving on the ground
 	elif direction.length() > 0.1:
 		# Sprinting animation
