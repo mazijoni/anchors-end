@@ -39,7 +39,7 @@ render_priority = 0
 shader = ExtResource("5_tuyoq")
 shader_parameter/step_count = 3
 shader_parameter/thickness = 1.5000000074506001
-shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/darken_amount = 0.6499999854712
 shader_parameter/fade_start = 100.0
 shader_parameter/fade_length = 200.0
 

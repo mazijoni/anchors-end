@@ -1,10 +1,10 @@
 shader_type spatial;
 render_mode blend_premul_alpha, unshaded, ambient_light_disabled;
-
 uniform sampler2D depth_texture : hint_depth_texture;
+uniform sampler2D screen_texture : hint_screen_texture;
 uniform int step_count : hint_range(3, 15, 2) = 3; // 2 samples per step
 uniform float thickness : hint_range(1.0, 16.0, 0.1) = 3.0;
-uniform vec3 edge_color : source_color = vec3(0.);
+uniform float darken_amount : hint_range(0.0, 1.0, 0.01) = 0.4;
 uniform float fade_start : hint_range(1.0, 1000.0, 0.1) = 100.0;
 uniform float fade_length : hint_range(1.0, 1000.0, 0.1) = 200.0;
 
@@ -23,6 +23,9 @@ void fragment() {
 	vec3 avg_dy = vec3(0.0);
 	// save closest pixel to uniformly fade line.
 	float min_z = 1e6;
+	// Also track the nearest neighbor UV for color sampling
+	float nearest_dist = 1e6;
+	vec2 nearest_uv = SCREEN_UV;
 	// Sample and average derivatives for all pairs
 	for (int i = 0; i < step_count; i++) {
 		vec2 uv1 = SCREEN_UV + dir * step_length;
@@ -33,24 +36,36 @@ void fragment() {
 		vec4 up2 = INV_PROJECTION_MATRIX * vec4(uv2 * 2.0 - 1.0, d2, 1.0);
 		vec3 p1 = up1.xyz / up1.w;
 		vec3 p2 = up2.xyz / up2.w;
-		min_z = min(min_z, min(-p1.z, -p2.z));
+		float z1 = -p1.z;
+		float z2 = -p2.z;
+		min_z = min(min_z, min(z1, z2));
+		// Track which neighbor is closest (most likely to be "the object")
+		if (z1 < nearest_dist) {
+			nearest_dist = z1;
+			nearest_uv = uv1;
+		}
+		if (z2 < nearest_dist) {
+			nearest_dist = z2;
+			nearest_uv = uv2;
+		}
 		vec3 diff = p1 - p2;
 		avg_dx += diff * dir.x;
 		avg_dy += diff * dir.y;
-
 		dir = rot * dir; // rotate direction for next step
 	}
+	// Sample the color of the nearest neighboring pixel (the object surface)
+	vec3 object_color = texture(screen_texture, nearest_uv).rgb;
+	// Darken it to create the outline color
+	vec3 edge_color = object_color * (1.0 - darken_amount);
 	// fade outline width with distance
 	float distance_fade = 1e-4 + smoothstep(fade_start + fade_length, fade_start, min_z);
-
 	// Edge mask
 	float edge = 1.0 - smoothstep(0.1, 0.15, dot(normalize(cross(avg_dy, avg_dx)), VIEW));
-
 	// Small vignette at screen edges
 	edge *= smoothstep(0.00, 0.015 * thickness,
 		1.0 - max(abs(SCREEN_UV.x - 0.5), abs(SCREEN_UV.y - 0.5)) * 2.0);
-
-	// blend_premul_alpha avoids need to sample screentexture.
+	// blend_premul_alpha avoids need to sample screentexture... but we need it now for color.
+	// Pre-multiply the color by alpha for correct blending.
 	ALBEDO = edge_color * edge;
 	ALPHA = edge * distance_fade;
 }
