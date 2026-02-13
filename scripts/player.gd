@@ -213,8 +213,8 @@ func _handle_animations():
 				animation_player.play("crouch_walk")
 		# Normal walking animation
 		else:
-			if animation_player.current_animation != "walk":
-				animation_player.play("walk")
+			if animation_player.current_animation != "idle":
+				animation_player.play("idle")
 	# Standing still
 	else:
 		# Crouching idle

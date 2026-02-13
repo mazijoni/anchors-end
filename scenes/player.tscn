@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://b3ulviqw2wvlr" path="res://scripts/fps.gd" id="3_dqkch"]
 [ext_resource type="Texture2D" uid="uid://vcjpv1fnbw45" path="res://assets/PSX_First_Person_Arms_hand.png" id="3_qhqgy"]
 [ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="3_qlg0r"]
+[ext_resource type="Shader" uid="uid://dva6e5bivccqn" path="res://scripts/outline.gdshader" id="5_tuyoq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tx1dd"]
 radius = 0.4
@@ -29,6 +30,18 @@ shader_parameter/grain_strength = 0.2
 shader_parameter/tint_color = Vector3(0.95, 1.03, 0.9)
 shader_parameter/tint_strength = 0.15
 shader_parameter/viewport_size_override = Vector2(0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_fjrip"]
+size = Vector2(2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_smehm"]
+render_priority = 0
+shader = ExtResource("5_tuyoq")
+shader_parameter/step_count = 3
+shader_parameter/thickness = 1.5000000074506001
+shader_parameter/edge_color = Color(0, 0, 0, 1)
+shader_parameter/fade_start = 100.0
+shader_parameter/fade_length = 200.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qavq2"]
 resource_name = "arms"
@@ -4511,6 +4524,12 @@ offset_bottom = 60.0
 theme_override_fonts/font = ExtResource("3_qlg0r")
 theme_override_font_sizes/font_size = 26
 script = ExtResource("3_dqkch")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/eyes/Camera3D" unique_id=965788976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.051)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_fjrip")
+surface_material_override/0 = SubResource("ShaderMaterial_smehm")
 
 [node name="Arms Senter" type="Node3D" parent="Head/eyes" unique_id=2008562977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)

@@ -92,7 +92,7 @@ shadow_enabled = true
 environment = SubResource("Environment_at5dv")
 
 [node name="Player" parent="." unique_id=201448788 instance=ExtResource("4_be0no")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.04758954, 24.436415, -10.958018)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -8.560388, 24.436415, 0.78771114)
 
 [node name="Water" type="Node3D" parent="." unique_id=1384433861 node_paths=PackedStringArray("tile1", "tile2")]
 script = ExtResource("5_blm8a")
