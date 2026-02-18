@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b0mqmeq1iswhl"]
+
+[ext_resource type="Script" uid="uid://hnmidh3ui1h0" path="res://scripts/healtbar.gd" id="1_jltaf"]
+
+[node name="HeartbeatHealthBar" type="Control" unique_id=318666648]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jltaf")
+
+[node name="ECGLine" type="Line2D" parent="." unique_id=464359060]
+
+[node name="BeatTimer" type="Timer" parent="." unique_id=941856872]
+
+[node name="Glow" type="ColorRect" parent="." unique_id=599453036]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

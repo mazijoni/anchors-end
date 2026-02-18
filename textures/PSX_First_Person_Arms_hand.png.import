@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://deh8spvduikc6"
-path.s3tc="res://.godot/imported/SawedOff_Material_Base_color.png-9b28048278d253d5cf45ec90028d0e34.s3tc.ctex"
+uid="uid://vcjpv1fnbw45"
+path.s3tc="res://.godot/imported/PSX_First_Person_Arms_hand.png-0a643d163a992f7649d14935f759fd62.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "13fb271c216c84d72789020366966103"
+"md5": "cdd6d1780be1bec2d8933db28dc50920"
 }
 
 [deps]
 
-source_file="res://assets/SawedOff_Material_Base_color.png"
-dest_files=["res://.godot/imported/SawedOff_Material_Base_color.png-9b28048278d253d5cf45ec90028d0e34.s3tc.ctex"]
+source_file="res://textures/PSX_First_Person_Arms_hand.png"
+dest_files=["res://.godot/imported/PSX_First_Person_Arms_hand.png-0a643d163a992f7649d14935f759fd62.s3tc.ctex"]
 
 [params]
 

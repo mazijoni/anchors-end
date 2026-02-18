@@ -6,8 +6,8 @@ extends CharacterBody3D
 @onready var standing_collision_shape = $standing_collision_shape
 @onready var chrouching_collision_shape = $chrouching_collision_shape
 @onready var ray_cast_3d = $RayCast3D
-@onready var animation_player = $"Head/eyes/Arms Senter/PSX_First_Person_Arms/AnimationPlayer"
-@onready var arms_senter = $"Head/eyes/Arms Senter"
+@onready var animation_player = $"Head/eyes/Arms Center/PSX_First_Person_Arms/AnimationPlayer"
+@onready var arms_senter = $"Head/eyes/Arms Center"
 
 # Speed Vars
 @export var current_speed = 5.0
@@ -19,6 +19,11 @@ extends CharacterBody3D
 @export var lerp_spead = 10.0
 @export var direction = Vector3.ZERO
 @export var crouching_depth = -0.5
+
+# Health
+@export var max_health: int = 100
+@export var health: int = 100
+@onready var health_bar = $Head/eyes/Camera3D/CanvasLayer/ECGHealthBar
 
 # States
 var walking = false
@@ -51,10 +56,114 @@ var head_bobbing_current_intensity = 0.0
 # Crouch arm offset: arms shift up when looking down, down when looking up
 @export var crouch_arm_look_strength: float = 0.3
 
+# Godmode flag
+var _godmode := false
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	# Connect to animation finished signal
 	animation_player.animation_finished.connect(_on_animation_finished)
+
+	# ── Debug console commands ──────────────────────────────────────────
+	DebugConsole.register_command("sethealth",   _cmd_sethealth,   "Set player health: sethealth <amount>")
+	DebugConsole.register_command("damage",      _cmd_damage,      "Damage player: damage <amount>")
+	DebugConsole.register_command("heal",        _cmd_heal,        "Heal player: heal <amount>")
+	DebugConsole.register_command("kill",        _cmd_kill,        "Kill player instantly")
+	DebugConsole.register_command("godmode",     _cmd_godmode,     "Toggle invincibility")
+	DebugConsole.register_command("setspeed",    _cmd_setspeed,    "Set walk speed: setspeed <amount>")
+	DebugConsole.register_command("setjump",     _cmd_setjump,     "Set jump height: setjump <amount>")
+	DebugConsole.register_command("noclip",      _cmd_noclip,      "Toggle noclip (fly through walls)")
+	DebugConsole.register_command("teleport",    _cmd_teleport,    "Teleport: teleport <x> <y> <z>")
+	DebugConsole.register_command("stats",       _cmd_stats,       "Show all player stats")
+
+# ── Debug command implementations ──────────────────────────────────────────────
+
+func _cmd_sethealth(args) -> String:
+	if args.is_empty():
+		return "health = %d / %d" % [health, max_health]
+	health = clamp(int(args[0]), 0, max_health)
+	return "Health set to %d" % health
+
+func _cmd_damage(args) -> String:
+	if args.is_empty():
+		return "[error] Usage: damage <amount>"
+	var amt := int(args[0])
+	if _godmode:
+		return "[godmode] Damage blocked."
+	health = clamp(health - amt, 0, max_health)
+	return "Dealt %d damage. Health = %d" % [amt, health]
+
+func _cmd_heal(args) -> String:
+	if args.is_empty():
+		return "[error] Usage: heal <amount>"
+	var amt := int(args[0])
+	health = clamp(health + amt, 0, max_health)
+	return "Healed %d. Health = %d" % [amt, health]
+
+func _cmd_kill(_args) -> String:
+	health = 0
+	return "Player killed."
+
+func _cmd_godmode(_args) -> String:
+	_godmode = !_godmode
+	return "Godmode: %s" % ("ON" if _godmode else "OFF")
+
+func _cmd_setspeed(args) -> String:
+	if args.is_empty():
+		return "walk=%s  sprint=%s  crouch=%s" % [walking_speed, sprinting_speed, crouching_speed]
+	var val := float(args[0])
+	walking_speed  = val
+	sprinting_speed = val * 1.6
+	crouching_speed = val * 0.4
+	return "Walk speed set to %.1f  (sprint=%.1f  crouch=%.1f)" % [walking_speed, sprinting_speed, crouching_speed]
+
+func _cmd_setjump(args) -> String:
+	if args.is_empty():
+		return "jump_velocity = %s" % jump_velocity
+	jump_velocity = float(args[0])
+	return "Jump velocity set to %.1f" % jump_velocity
+
+var _noclip := false
+func _cmd_noclip(_args) -> String:
+	_noclip = !_noclip
+	if _noclip:
+		standing_collision_shape.disabled = true
+		chrouching_collision_shape.disabled = true
+	else:
+		standing_collision_shape.disabled = false
+	return "Noclip: %s" % ("ON" if _noclip else "OFF")
+
+func _cmd_teleport(args) -> String:
+	if args.size() < 3:
+		return "[error] Usage: teleport <x> <y> <z>"
+	global_position = Vector3(float(args[0]), float(args[1]), float(args[2]))
+	return "Teleported to %s" % global_position
+
+func _cmd_stats(_args) -> String:
+	return """[b]Player Stats[/b]
+  health       = %d / %d
+  godmode      = %s
+  noclip       = %s
+  walk speed   = %.1f
+  sprint speed = %.1f
+  crouch speed = %.1f
+  jump vel     = %.1f
+  position     = %s""" % [
+		health, max_health,
+		"ON" if _godmode else "OFF",
+		"ON" if _noclip else "OFF",
+		walking_speed, sprinting_speed, crouching_speed,
+		jump_velocity,
+		global_position
+	]
+
+# ── Take damage helper (use this from other scripts to deal damage) ────────────
+
+func take_damage(amount: int) -> void:
+	if _godmode:
+		return
+	health = clamp(health - amount, 0, max_health)
+
+# ─────────────────────────────────────────────────────────────────────────────
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -63,6 +172,7 @@ func _input(event):
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta: float) -> void:
+	health_bar.set_health(health)
 	# Handle punch input
 	if Input.is_action_just_pressed("punch") and !is_punching:
 		_play_punch()
@@ -154,14 +264,11 @@ func _physics_process(delta: float) -> void:
 		eyes.position.x = lerp(eyes.position.x, sway_x, delta * lerp_spead)
 		eyes.rotation.z = lerp(eyes.rotation.z, tilt_z, delta * lerp_spead)
 
-		# Also rotate Arms Senter when crouch walking
 		var target_rot_x = 0.0
 		if crouching:
 			target_rot_x = -head.rotation.x * crouch_arm_look_strength
 		arms_senter.rotation.x = lerp(arms_senter.rotation.x, target_rot_x, delta * lerp_spead)
 	else:
-		# When crouching, rotate Arms Senter to follow the vertical look angle,
-		# making arms rise when looking down and lower when looking up.
 		var target_rot_x = 0.0
 		if crouching:
 			target_rot_x = -head.rotation.x * crouch_arm_look_strength
@@ -173,13 +280,12 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-	# Only handle animations if not punching
 	if !is_punching:
 		_handle_animations()
 
 func _play_punch():
 	is_punching = true
-	punch_reset_timer = 0.0  # Reset the timer when punching
+	punch_reset_timer = 0.0
 	if next_punch_is_right:
 		animation_player.play("punch_right")
 	else:
@@ -191,37 +297,27 @@ func _on_animation_finished(anim_name: String):
 		is_punching = false
 
 func _handle_animations():
-	# Check if player is in the air
 	if !is_on_floor():
-		# Falling animation (when moving downward)
 		if velocity.y < 0:
 			if animation_player.current_animation != "falling":
 				animation_player.play("falling")
-		# Jumping animation (when moving upward)
 		else:
 			if animation_player.current_animation != "jump":
 				animation_player.play("jump")
-	# Check if player is moving on the ground
 	elif direction.length() > 0.1:
-		# Sprinting animation
 		if sprinting:
 			if animation_player.current_animation != "sprint":
 				animation_player.play("sprint")
-		# Crouching walk animation
 		elif crouching:
 			if animation_player.current_animation != "crouch_walk":
 				animation_player.play("crouch_walk")
-		# Normal walking animation
 		else:
 			if animation_player.current_animation != "idle":
 				animation_player.play("idle")
-	# Standing still
 	else:
-		# Crouching idle
 		if crouching:
 			if animation_player.current_animation != "crouch_idle":
 				animation_player.play("crouch_idle")
-		# Normal idle
 		else:
 			if animation_player.current_animation != "idle":
 				animation_player.play("idle")

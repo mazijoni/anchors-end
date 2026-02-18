@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bbqf8db7jedhc"]
+
+[ext_resource type="Script" uid="uid://ddqfb4i0p1l2j" path="res://debug/DebugConsole.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="3_2cxqh"]
+[ext_resource type="FontFile" uid="uid://bmpb4c5egg86n" path="res://fonts/VCR_OSD_MONO_1.001.ttf" id="4_f27he"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cxqh"]
+bg_color = Color(0.07450981, 0.07450981, 0.07450981, 0.8862745)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2cxqh"]
+
+[node name="DebugConsole" type="CanvasLayer" unique_id=1517191217]
+script = ExtResource("1")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1774340480]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2cxqh")
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=2125225916]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Output" type="RichTextLabel" parent="Panel/VBox" unique_id=702587348]
+custom_minimum_size = Vector2(0, 270)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_fonts/normal_font = ExtResource("4_f27he")
+theme_override_fonts/bold_font = ExtResource("3_2cxqh")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_following = true
+
+[node name="InputRow" type="HBoxContainer" parent="Panel/VBox" unique_id=558953342]
+layout_mode = 2
+
+[node name="Prompt" type="Label" parent="Panel/VBox/InputRow" unique_id=2131210542]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_f27he")
+theme_override_font_sizes/font_size = 14
+text = ">"
+
+[node name="Input" type="LineEdit" parent="Panel/VBox/InputRow" unique_id=392078171]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_colors/font_placeholder_color = Color(0.45, 0.45, 0.45, 1)
+theme_override_fonts/font = ExtResource("4_f27he")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2cxqh")
+placeholder_text = "type a command..."
+keep_editing_on_text_submit = true
+flat = true

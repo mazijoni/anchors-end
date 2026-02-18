@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://baj32uqx4sa6f"
-path="res://.godot/imported/HomeVideo-Regular.ttf-2f8862b3493e5ba487b699c96332cfdb.fontdata"
+uid="uid://bmpb4c5egg86n"
+path="res://.godot/imported/VCR_OSD_MONO_1.001.ttf-92b798ad9789991a513c2da11fbc8ed7.fontdata"
 
 [deps]
 
-source_file="res://fonts/HomeVideo-Regular.ttf"
-dest_files=["res://.godot/imported/HomeVideo-Regular.ttf-2f8862b3493e5ba487b699c96332cfdb.fontdata"]
+source_file="res://fonts/VCR_OSD_MONO_1.001.ttf"
+dest_files=["res://.godot/imported/VCR_OSD_MONO_1.001.ttf-92b798ad9789991a513c2da11fbc8ed7.fontdata"]
 
 [params]
 
@@ -16,7 +16,7 @@ Rendering=null
 antialiasing=1
 generate_mipmaps=false
 disable_embedded_bitmaps=true
-multichannel_signed_distance_field=true
+multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
