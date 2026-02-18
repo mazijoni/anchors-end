@@ -4480,7 +4480,7 @@ _data = {
 &"walk": SubResource("Animation_ui7dp")
 }
 
-[node name="Player" type="CharacterBody3D" unique_id=937026462]
+[node name="Player" type="CharacterBody3D" unique_id=937026462 groups=["Player"]]
 script = ExtResource("1_3vyb7")
 mouse_sens = 0.25
 head_tilt_strength = 0.2

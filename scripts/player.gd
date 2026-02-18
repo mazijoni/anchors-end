@@ -64,7 +64,8 @@ func _ready():
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	# ── Debug console commands ──────────────────────────────────────────
-	DebugConsole.register_command("sethealth",   _cmd_sethealth,   "Set player health: sethealth <amount>")
+	DebugConsole.register_command("health",   _cmd_sethealth,      "Set/show player health: health <amount> / <empty>")
+	DebugConsole.register_command("hp",       _cmd_sethealth,      "Alias for health")
 	DebugConsole.register_command("damage",      _cmd_damage,      "Damage player: damage <amount>")
 	DebugConsole.register_command("heal",        _cmd_heal,        "Heal player: heal <amount>")
 	DebugConsole.register_command("kill",        _cmd_kill,        "Kill player instantly")
