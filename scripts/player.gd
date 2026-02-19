@@ -25,6 +25,17 @@ extends CharacterBody3D
 @export var health: int = 100
 @onready var health_bar = $Head/eyes/Camera3D/CanvasLayer/ECGHealthBar
 
+# Stamina
+@export var max_stamina: float = 100.0
+var stamina: float = max_stamina
+@export var stamina_drain: float = 20.0
+@export var stamina_regen: float = 10.0
+@export var stamina_regen_delay: float = 1.0
+@export var stamina_sprint_threshold: float = 50.0  # must reach this to sprint again
+var stamina_regen_timer: float = 0.0
+var can_sprint: bool = true
+@onready var stamina_bar = $Head/eyes/Camera3D/CanvasLayer/StaminaBar
+
 # States
 var walking = false
 var sprinting = false
@@ -64,9 +75,10 @@ func _ready():
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	# ── Debug console commands ──────────────────────────────────────────
-	DebugConsole.register_command("health",   _cmd_sethealth,      "Set/show player health: health <amount> / <empty>")
-	DebugConsole.register_command("hp",       _cmd_sethealth,      "Alias for health")
+	DebugConsole.register_command("health",      _cmd_sethealth,   "Set/show player health: health <amount> / <empty>")
+	DebugConsole.register_command("hp",          _cmd_sethealth,   "Alias for health")
 	DebugConsole.register_command("damage",      _cmd_damage,      "Damage player: damage <amount>")
+	DebugConsole.register_command("dmg",         _cmd_damage,      "Alias for damage")
 	DebugConsole.register_command("heal",        _cmd_heal,        "Heal player: heal <amount>")
 	DebugConsole.register_command("kill",        _cmd_kill,        "Kill player instantly")
 	DebugConsole.register_command("godmode",     _cmd_godmode,     "Toggle invincibility")
@@ -142,6 +154,7 @@ func _cmd_teleport(args) -> String:
 func _cmd_stats(_args) -> String:
 	return """[b]Player Stats[/b]
   health       = %d / %d
+  stamina      = %.1f / %.1f
   godmode      = %s
   noclip       = %s
   walk speed   = %.1f
@@ -150,6 +163,7 @@ func _cmd_stats(_args) -> String:
   jump vel     = %.1f
   position     = %s""" % [
 		health, max_health,
+		stamina, max_stamina,
 		"ON" if _godmode else "OFF",
 		"ON" if _noclip else "OFF",
 		walking_speed, sprinting_speed, crouching_speed,
@@ -157,12 +171,32 @@ func _cmd_stats(_args) -> String:
 		global_position
 	]
 
-# ── Take damage helper (use this from other scripts to deal damage) ────────────
+# ── Take damage helper ────────────────────────────────────────────────────────
 
 func take_damage(amount: int) -> void:
 	if _godmode:
 		return
 	health = clamp(health - amount, 0, max_health)
+
+# ── Stamina ───────────────────────────────────────────────────────────────────
+
+func _handle_stamina(delta: float) -> void:
+	if sprinting and velocity.length() > 0.1:
+		stamina -= stamina_drain * delta
+		stamina = max(stamina, 0.0)
+		stamina_regen_timer = stamina_regen_delay
+		if stamina <= 0.0:
+			can_sprint = false
+	else:
+		if stamina_regen_timer > 0:
+			stamina_regen_timer -= delta
+		else:
+			stamina += stamina_regen * delta
+			stamina = min(stamina, max_stamina)
+			if stamina >= stamina_sprint_threshold:
+				can_sprint = true
+
+	stamina_bar.value = stamina
 
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -174,6 +208,8 @@ func _input(event):
 
 func _physics_process(delta: float) -> void:
 	health_bar.set_health(health)
+	_handle_stamina(delta)
+
 	# Handle punch input
 	if Input.is_action_just_pressed("punch") and !is_punching:
 		_play_punch()
@@ -194,7 +230,7 @@ func _physics_process(delta: float) -> void:
 		standing_collision_shape.disabled = true
 		chrouching_collision_shape.disabled = false
 
-	elif Input.is_action_pressed("sprint") and !ray_cast_3d.is_colliding():
+	elif Input.is_action_pressed("sprint") and !ray_cast_3d.is_colliding() and stamina > 0 and can_sprint:
 		walking = false
 		sprinting = true
 		crouching = false

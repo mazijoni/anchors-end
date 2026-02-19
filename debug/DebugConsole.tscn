@@ -1,13 +1,11 @@
 [gd_scene format=3 uid="uid://bbqf8db7jedhc"]
 
-[ext_resource type="Script" uid="uid://ddqfb4i0p1l2j" path="res://debug/DebugConsole.gd" id="1"]
+[ext_resource type="Script" uid="uid://ddqfb4i0p1l2j" path="res://debug/Debugconsole.gd" id="1"]
 [ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="3_2cxqh"]
 [ext_resource type="FontFile" uid="uid://bmpb4c5egg86n" path="res://fonts/VCR_OSD_MONO_1.001.ttf" id="4_f27he"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cxqh"]
 bg_color = Color(0.07450981, 0.07450981, 0.07450981, 0.8862745)
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2cxqh"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2cxqh"]
 
@@ -35,7 +33,6 @@ theme_override_colors/default_color = Color(0.9, 0.9, 0.9, 1)
 theme_override_fonts/normal_font = ExtResource("4_f27he")
 theme_override_fonts/bold_font = ExtResource("3_2cxqh")
 theme_override_font_sizes/normal_font_size = 13
-theme_override_icons/horizontal_rule = SubResource("NoiseTexture2D_2cxqh")
 bbcode_enabled = true
 scroll_following = true
 

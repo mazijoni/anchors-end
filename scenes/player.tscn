@@ -9,6 +9,8 @@
 [ext_resource type="Shader" uid="uid://dva6e5bivccqn" path="res://scripts/outline.gdshader" id="5_tuyoq"]
 [ext_resource type="Script" uid="uid://hnmidh3ui1h0" path="res://scripts/healtbar.gd" id="6_smehm"]
 [ext_resource type="FontFile" uid="uid://baj32uqx4sa6f" path="res://fonts/HomeVideo-Regular.ttf" id="7_ur7pv"]
+[ext_resource type="Texture2D" uid="uid://bwu5ryjhx11op" path="res://textures/PNG/Dark/texture_08.png" id="8_d2wvv"]
+[ext_resource type="Texture2D" uid="uid://cjdia48sv8tfg" path="res://textures/PNG/Orange/texture_09.png" id="8_y4r1p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tx1dd"]
 radius = 0.4
@@ -4526,10 +4528,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="FPS" type="Label" parent="Head/eyes/Camera3D/CanvasLayer" unique_id=717162889]
-offset_left = 19.0
-offset_top = 599.0
-offset_right = 59.0
-offset_bottom = 623.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 58.0
+offset_top = -63.0
+offset_right = 98.0
+offset_bottom = -39.0
+grow_vertical = 0
 theme_override_fonts/font = ExtResource("3_qlg0r")
 theme_override_font_sizes/font_size = 26
 script = ExtResource("3_dqkch")
@@ -4568,6 +4574,15 @@ theme_override_fonts/font = ExtResource("7_ur7pv")
 text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="StaminaBar" type="TextureProgressBar" parent="Head/eyes/Camera3D/CanvasLayer" unique_id=210065756]
+offset_left = 35.0
+offset_top = 105.0
+offset_right = 1059.0
+offset_bottom = 1129.0
+scale = Vector2(0.20600557, 0.009914103)
+texture_under = ExtResource("8_d2wvv")
+texture_progress = ExtResource("8_y4r1p")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Head/eyes/Camera3D" unique_id=965788976]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.051)

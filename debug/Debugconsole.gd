@@ -44,6 +44,7 @@ func _ready() -> void:
 	register_command("ls",        _cmd_ls,        "List files in dir: ls [path]")
 	register_command("dir",       _cmd_ls,        "Alias for ls")
 	register_command("cd",        _cmd_cd,        "Change directory: cd <path>")
+	register_command("..",        _cmd_cd_dd,        "Change directory: cd preveus")
 	register_command("pwd",       _cmd_pwd,       "Print current directory")
 	register_command("cat",       _cmd_cat,       "Print file contents: cat <file>")
 	register_command("mkdir",     _cmd_mkdir,     "Create directory: mkdir <path>")
@@ -241,7 +242,12 @@ func _cmd_cd(args) -> String:
 	if dir == null:
 		return "[error] Directory not found: " + path
 	_cwd = path.rstrip("/") + "/"
+	print(args)
+	return ("")
 	return _cwd
+
+func _cmd_cd_dd(args) -> String:
+	return _cmd_cd([".."])
 
 func _cmd_pwd(_args) -> String:
 	return _cwd
