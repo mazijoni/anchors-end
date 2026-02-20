@@ -243,7 +243,6 @@ func _cmd_cd(args) -> String:
 		return "[error] Directory not found: " + path
 	_cwd = path.rstrip("/") + "/"
 	print(args)
-	return ("")
 	return _cwd
 
 func _cmd_cd_dd(args) -> String:
