@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cafona0diiu4k" path="res://scenes/boat.tscn" id="6_2lpho"]
 [ext_resource type="Shader" uid="uid://bv762j8xskddx" path="res://scripts/water.gdshader" id="6_mlgqr"]
 [ext_resource type="PackedScene" uid="uid://cg4tangalh7k2" path="res://scenes/death_zone.tscn" id="6_nakos"]
+[ext_resource type="PackedScene" uid="uid://mnh4cma3j7w4" path="res://scenes/rig.tscn" id="8_jh32y"]
+[ext_resource type="FontFile" uid="uid://baj32uqx4sa6f" path="res://fonts/HomeVideo-Regular.ttf" id="9_mlgqr"]
+[ext_resource type="Material" uid="uid://dwexmwcw8433" path="res://textures/Material/screen_shader.tres" id="9_wslke"]
+[ext_resource type="Script" uid="uid://cos55n00wc4pw" path="res://scripts/label.gd" id="10_wslke"]
+[ext_resource type="Shader" uid="uid://cepetixtn1uka" path="res://scripts/CRT.gdshader" id="11_gw3fx"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2lpho"]
 
@@ -54,6 +59,8 @@ sky_material = SubResource("ShaderMaterial_j5jx5")
 background_mode = 2
 sky = SubResource("Sky_lpvoh")
 tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 8.0
 fog_enabled = true
 fog_light_color = Color(0.23438767, 0.2576339, 0.29380444, 1)
 fog_density = 0.002
@@ -76,6 +83,36 @@ size = Vector2(5000, 5000)
 subdivide_width = 500
 subdivide_depth = 500
 
+[sub_resource type="QuadMesh" id="QuadMesh_c70he"]
+resource_local_to_scene = true
+material = ExtResource("9_wslke")
+size = Vector2(-0.86, 0.635)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wslke"]
+shader = ExtResource("11_gw3fx")
+shader_parameter/overlay = false
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/brightness = 1.4
+shader_parameter/tint_color = Color(0.23003942, 0.5600321, 0, 1)
+shader_parameter/scanlines_opacity = 0.1890000089775
+shader_parameter/scanlines_width = 0.5
+shader_parameter/grille_opacity = 0.0
+shader_parameter/roll = false
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 0.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/aberration = 0.03
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/pixelate = true
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = -0.32
+shader_parameter/vignette_opacity = 0.5
+
 [node name="Map" type="Node3D" unique_id=366900070]
 script = ExtResource("1_2lpho")
 
@@ -92,16 +129,16 @@ shadow_enabled = true
 environment = SubResource("Environment_at5dv")
 
 [node name="Player" parent="." unique_id=201448788 instance=ExtResource("4_be0no")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -8.560388, 24.436415, 0.78771114)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -8.560388, 25.962759, 0.78771114)
 
 [node name="Water" type="Node3D" parent="." unique_id=1384433861 node_paths=PackedStringArray("tile1", "tile2")]
 script = ExtResource("5_blm8a")
 tile1 = NodePath("MeshInstance3D")
 tile2 = NodePath("MeshInstance3D2")
-scroll_speed = 20.0
+scroll_speed = 10.0
 tile_length = 4995.0
 bob_height = 0.5
-tilt_amount = 0.04
+tilt_amount = 0.0
 randomness = 0.4
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Water" unique_id=555730265]
@@ -114,5 +151,48 @@ skeleton = NodePath("../..")
 
 [node name="Death Zone" parent="Water" unique_id=1983801503 instance=ExtResource("6_nakos")]
 
-[node name="Boat" parent="." unique_id=1672465570 instance=ExtResource("6_2lpho")]
-transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 0, 10.204365, 0)
+[node name="Boat" parent="Water" unique_id=1672465570 instance=ExtResource("6_2lpho")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 372.465, 10.204365, 0)
+
+[node name="rig" parent="." unique_id=1787563506 instance=ExtResource("8_jh32y")]
+transform = Transform3D(1.825, 0, 0, 0, 1.825, 0, 0, 0, 1.825, 0, 24.635866, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1355471453]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 27.106215, -2.3979151)
+size = Vector3(1, 0.7528076, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CSGBox3D" unique_id=1098462282]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1281429e-09, 0, -0.53115296)
+mesh = SubResource("QuadMesh_c70he")
+
+[node name="SubViewport" type="SubViewport" parent="CSGBox3D/MeshInstance3D" unique_id=688897121]
+handle_input_locally = false
+size = Vector2i(860, 635)
+render_target_update_mode = 4
+
+[node name="Label" type="Label" parent="CSGBox3D/MeshInstance3D/SubViewport" unique_id=1866454977]
+offset_right = 42.269066
+offset_bottom = 31.2103
+scale = Vector2(20.345848, 20.345848)
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("9_mlgqr")
+text = "'-'"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+script = ExtResource("10_wslke")
+
+[node name="ColorRect" type="ColorRect" parent="CSGBox3D/MeshInstance3D/SubViewport" unique_id=940276047]
+material = SubResource("ShaderMaterial_wslke")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CSGBox3D/MeshInstance3D" unique_id=2091184504]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

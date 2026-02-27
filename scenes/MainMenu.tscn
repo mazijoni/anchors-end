@@ -1,0 +1,389 @@
+[gd_scene format=3 uid="uid://om00i1605eeh"]
+
+[ext_resource type="Script" uid="uid://dyn57lyg4odbb" path="res://scripts/mainmenu.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://baj32uqx4sa6f" path="res://fonts/HomeVideo-Regular.ttf" id="2_0ykhv"]
+[ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="3_2wh52"]
+[ext_resource type="Shader" uid="uid://cepetixtn1uka" path="res://scripts/CRT.gdshader" id="4_ow34m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.024, 0.047, 0.024, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.102, 0.475, 0.031, 1)
+shadow_color = Color(0.224, 1, 0.082, 0.18)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_output_bg"]
+bg_color = Color(0.012, 0.024, 0.012, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.102, 0.475, 0.031, 0.5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_scroll"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.224, 1, 0.082, 0.15)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.224, 1, 0.082, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.224, 1, 0.082, 0.07)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.102, 0.475, 0.031, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mo32q"]
+shader = ExtResource("4_ow34m")
+shader_parameter/overlay = true
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/brightness = 1.4
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.0
+shader_parameter/roll = false
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 0.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/aberration = 0.010000047974999982
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.0250000011875
+shader_parameter/pixelate = false
+shader_parameter/discolor = false
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.0
+
+[node name="MainMenu" type="Control" unique_id=1646308504]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="." unique_id=529337588]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.039, 0.059, 0.039, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=199736770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Monitor" type="PanelContainer" parent="CenterContainer" unique_id=667590092]
+custom_minimum_size = Vector2(720, 600)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Monitor" unique_id=997270388]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/Monitor/MarginContainer" unique_id=990079803]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TitleBar" type="HBoxContainer" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=879792552]
+layout_mode = 2
+
+[node name="TitleBarLabel" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox/TitleBar" unique_id=1494976943]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 11
+text = "GAME.EXE v1.0.0 — MAIN TERMINAL"
+
+[node name="ReadyLabel" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox/TitleBar" unique_id=999548636]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 11
+text = "■ READY"
+
+[node name="Divider1" type="HSeparator" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1231892885]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Spacer1" type="Control" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=2145317502]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="AsciiTitle" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1552118980]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.224, 1, 0.082, 1)
+theme_override_fonts/font = ExtResource("3_2wh52")
+theme_override_font_sizes/font_size = 44
+text = "GAME.EXE"
+
+[node name="Subtitle" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=29851448]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 10
+text = "// INTERACTIVE TERMINAL MENU — TYPE OR CLICK //"
+
+[node name="Spacer2" type="Control" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=618609490]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="OutputBg" type="PanelContainer" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=205379197]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_output_bg")
+
+[node name="OutputScroll" type="ScrollContainer" parent="CenterContainer/Monitor/MarginContainer/VBox/OutputBg" unique_id=1877827521]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_scroll")
+horizontal_scroll_mode = 0
+
+[node name="OutputVBox" type="VBoxContainer" parent="CenterContainer/Monitor/MarginContainer/VBox/OutputBg/OutputScroll" unique_id=1501034762]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Spacer3" type="Control" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1953588673]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HelpLabel" type="RichTextLabel" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1581134496]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/default_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/normal_font = ExtResource("2_0ykhv")
+theme_override_fonts/bold_font = ExtResource("3_2wh52")
+theme_override_font_sizes/normal_font_size = 10
+bbcode_enabled = true
+text = "[color=#39ff14]HOW TO USE:[/color] Click any option below. In SETTINGS, drag the bar next to each setting."
+fit_content = true
+scroll_active = false
+
+[node name="Spacer4" type="Control" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1831450548]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="MenuLabel" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1708927627]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_font_sizes/font_size = 10
+text = "── MAIN MENU ──────────────────"
+
+[node name="Spacer5" type="Control" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=508976340]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="MenuList" type="VBoxContainer" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1943821994]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="BtnNewGame" type="Button" parent="CenterContainer/Monitor/MarginContainer/VBox/MenuList" unique_id=2065844467]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724, 0.953, 0.722, 1)
+theme_override_colors/font_pressed_color = Color(0.22352941, 1, 0.08235294, 1)
+theme_override_colors/font_hover_color = Color(0.22352941, 1, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "[1]  NEW GAME          Start a fresh adventure from the beginning  ▶"
+alignment = 0
+
+[node name="BtnLoadGame" type="Button" parent="CenterContainer/Monitor/MarginContainer/VBox/MenuList" unique_id=1611377807]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724, 0.953, 0.722, 1)
+theme_override_colors/font_pressed_color = Color(0.224, 1, 0.082, 1)
+theme_override_colors/font_hover_color = Color(0.224, 1, 0.082, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "[2]  LOAD GAME         Continue your last save — 3 saves found     ▶"
+alignment = 0
+
+[node name="BtnSettings" type="Button" parent="CenterContainer/Monitor/MarginContainer/VBox/MenuList" unique_id=1982157160]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724, 0.953, 0.722, 1)
+theme_override_colors/font_pressed_color = Color(0.224, 1, 0.082, 1)
+theme_override_colors/font_hover_color = Color(0.224, 1, 0.082, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "[3]  SETTINGS          Audio, video, controls — make it your own   ▶"
+alignment = 0
+
+[node name="BtnCredits" type="Button" parent="CenterContainer/Monitor/MarginContainer/VBox/MenuList" unique_id=78982414]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724, 0.953, 0.722, 1)
+theme_override_colors/font_pressed_color = Color(0.224, 1, 0.082, 1)
+theme_override_colors/font_hover_color = Color(0.224, 1, 0.082, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "[4]  CREDITS           The people who made this game               ▶"
+alignment = 0
+
+[node name="BtnQuit" type="Button" parent="CenterContainer/Monitor/MarginContainer/VBox/MenuList" unique_id=663355896]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.724, 0.953, 0.722, 1)
+theme_override_colors/font_pressed_color = Color(0.224, 1, 0.082, 1)
+theme_override_colors/font_hover_color = Color(0.224, 1, 0.082, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "[Q]  QUIT GAME         Exit to desktop                             ▶"
+alignment = 0
+
+[node name="Filler" type="Control" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=477313796]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatusDivider" type="HSeparator" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=330562778]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="StatusBar" type="HBoxContainer" parent="CenterContainer/Monitor/MarginContainer/VBox" unique_id=1000262033]
+layout_mode = 2
+
+[node name="StatusOnline" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox/StatusBar" unique_id=915640704]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 10
+text = "● SYSTEM ONLINE"
+
+[node name="MemLabel" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox/StatusBar" unique_id=592829203]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 10
+text = "MEM: 64K OK"
+horizontal_alignment = 1
+
+[node name="ClockLabel" type="Label" parent="CenterContainer/Monitor/MarginContainer/VBox/StatusBar" unique_id=1839616561]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_fonts/font = ExtResource("2_0ykhv")
+theme_override_font_sizes/font_size = 10
+text = "--:--:--"
+horizontal_alignment = 2
+
+[node name="LaunchOverlay" type="ColorRect" parent="." unique_id=573529039]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.024, 0.047, 0.024, 1)
+
+[node name="LaunchCenter" type="CenterContainer" parent="LaunchOverlay" unique_id=1341071069]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LaunchVBox" type="VBoxContainer" parent="LaunchOverlay/LaunchCenter" unique_id=1119370793]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="LaunchText" type="Label" parent="LaunchOverlay/LaunchCenter/LaunchVBox" unique_id=1638628196]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.224, 1, 0.082, 1)
+theme_override_font_sizes/font_size = 28
+text = "LAUNCHING NEW GAME..."
+horizontal_alignment = 1
+
+[node name="BarBg" type="PanelContainer" parent="LaunchOverlay/LaunchCenter/LaunchVBox" unique_id=731325675]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="LoadingBar" type="ProgressBar" parent="LaunchOverlay/LaunchCenter/LaunchVBox/BarBg" unique_id=717169813]
+custom_minimum_size = Vector2(360, 18)
+layout_mode = 2
+show_percentage = false
+
+[node name="LaunchSub" type="Label" parent="LaunchOverlay/LaunchCenter/LaunchVBox" unique_id=1635179530]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.102, 0.475, 0.031, 1)
+theme_override_font_sizes/font_size = 14
+text = "Preparing world data..."
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=949896785]
+material = SubResource("ShaderMaterial_mo32q")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
