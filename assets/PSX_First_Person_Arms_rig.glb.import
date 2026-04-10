@@ -3,26 +3,26 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://n2car6bvoeep"
-path="res://.godot/imported/PSX_First_Person_Arms.glb-ea178375d1a9fcf9a884a0094c587e9d.scn"
+uid="uid://bb35lo4qts85y"
+path="res://.godot/imported/PSX_First_Person_Arms_rig.glb-be25256cdeb3c4a2f253cd75f9c90d4a.scn"
 
 [deps]
 
-source_file="res://assets/PSX_First_Person_Arms.glb"
-dest_files=["res://.godot/imported/PSX_First_Person_Arms.glb-ea178375d1a9fcf9a884a0094c587e9d.scn"]
+source_file="res://assets/PSX_First_Person_Arms_rig.glb"
+dest_files=["res://.godot/imported/PSX_First_Person_Arms_rig.glb-be25256cdeb3c4a2f253cd75f9c90d4a.scn"]
 
 [params]
 
-nodes/root_type="Node3D"
+nodes/root_type="AnimationTree"
 nodes/root_name=""
 nodes/root_script=null
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
-nodes/import_as_skeleton_bones=true
+nodes/import_as_skeleton_bones=false
 nodes/use_name_suffixes=true
 nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
-meshes/generate_lods=false
+meshes/generate_lods=true
 meshes/create_shadow_meshes=true
 meshes/light_baking=1
 meshes/lightmap_texel_size=0.2

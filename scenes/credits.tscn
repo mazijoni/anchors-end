@@ -1,0 +1,247 @@
+[gd_scene format=3 uid="uid://br37oosshku40"]
+
+[ext_resource type="Script" uid="uid://dff6x67urw2bl" path="res://scripts/credits.gd" id="1_cred"]
+[ext_resource type="Script" uid="uid://vkt2p8ktvsea" path="res://scripts/scrolling_credits.gd" id="2_scroll"]
+[ext_resource type="Texture2D" uid="uid://ks3x8ui3askl" path="res://textures/blue_screen.webp" id="3_bgscrn"]
+[ext_resource type="FontFile" uid="uid://baj32uqx4sa6f" path="res://fonts/HomeVideo-Regular.ttf" id="4_regular"]
+[ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="5_bold"]
+[ext_resource type="Texture2D" uid="uid://bm5oejukdmop5" path="res://textures/Skjermbilde 2025-10-08 173332.png" id="6_logo"]
+[ext_resource type="Shader" uid="uid://c0gs4ta81gknx" path="res://scripts/VHS_screen_error._with_static.gdshader" id="7_vhserr"]
+[ext_resource type="Shader" uid="uid://wagabmt5307a" path="res://scripts/VHS_CRT.gdshader" id="8_vhscrt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cred"]
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cred"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhserr"]
+shader = ExtResource("7_vhserr")
+shader_parameter/USE_NOISE_TEX = true
+shader_parameter/NOISE_SCALE = Vector2(1, 1)
+shader_parameter/STATIC_SPEED = 2.0
+shader_parameter/NOISE_CONTRAST = 1.2
+shader_parameter/GRAIN_STRENGTH = 0.8
+shader_parameter/SCANLINE_INTENSITY = 0.25
+shader_parameter/SCANLINE_SPEED = 1.0
+shader_parameter/JITTER_STRENGTH = 0.004
+shader_parameter/ABERRATION = 0.4
+shader_parameter/PIXEL_RESOLUTION = Vector2(320, 180)
+shader_parameter/BORDER_COLOR = Color(0, 0, 1, 1)
+shader_parameter/BORDER_LEFT = 0.05
+shader_parameter/BORDER_RIGHT = 0.05
+shader_parameter/BORDER_TOP = 0.05
+shader_parameter/BORDER_BOTTOM = 0.05
+shader_parameter/BORDER_STRENGTH = 0.7
+shader_parameter/BORDER_JIGGLE = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhscrt"]
+shader = ExtResource("8_vhscrt")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.0
+shader_parameter/scanlines_width = 0.0
+shader_parameter/grille_opacity = 0.0
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = false
+shader_parameter/roll = false
+shader_parameter/roll_speed = 1.65
+shader_parameter/roll_size = 0.0
+shader_parameter/roll_variation = 5.0
+shader_parameter/distort_intensity = 0.0990000047025
+shader_parameter/noise_opacity = 0.5690000270275
+shader_parameter/noise_speed = 13.425
+shader_parameter/static_noise_intensity = 0.07600000361
+shader_parameter/aberration = 0.00800004787999997
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.15
+shader_parameter/vignette_opacity = 0.7750000368125
+
+[node name="Credits" type="Control" unique_id=1442676556]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cred")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=407255635]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bgscrn")
+
+[node name="CreditsText" type="RichTextLabel" parent="." unique_id=1288429631 node_paths=PackedStringArray("end_logo")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -305.0
+offset_top = 421.0
+offset_right = 326.0
+offset_bottom = 2820.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_separation = 6
+theme_override_fonts/normal_font = ExtResource("4_regular")
+theme_override_fonts/bold_font = ExtResource("5_bold")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
+text = "[center][b]Anchor's End[/b][/center]
+
+A game by
+[b]Maze_development[/b]
+
+---
+
+[b]LEAD DESIGN & PROGRAMMING[/b]
+Jonatan Lund Ermesjø
+
+[b]TEMPLATE SYSTEMS[/b]
+Scene Management . . . . . . . . . . Dzsúlió
+UI Navigation . . . . . . . . . . Dzsúlió
+Settings Persistence . . . . . . . Dzsúlió
+Audio Handling . . . . . . . . . . Dzsúlió
+
+---
+
+[b]PRODUCTION[/b]
+Producer . . . . . . . . Maze_Develpoment
+Associate Producer . . . Jonatan lund Ermesjø
+
+[b]ART & VISUALS[/b]
+Lead Artist . . . . . . . Jonatan lund Ermesjø
+Character Design . . . . Jonatan lund Ermesjø
+Environment Art . . . . Jonatan lund Ermesjø
+			- other
+VFX . . . . . . . . . . Jonatan lund Ermesjø
+
+[b]AUDIO[/b]
+Music Composition . . . . [Your Name/Studio Here]
+Sound Effects . . . . . . [Your Name/Studio Here]
+
+---
+
+[b]INCLUDED ASSETS[/b]
+\"Home Video\" Font . . . . Home Video Typography
+VHS Shader Pack . . . . Analog Dreams Inc.
+8-Bit Sound Library . . . StaticWave Labs
+
+---
+
+[b]SPECIAL THANKS[/b]
+The Godot Engine Community
+Our Familie & Friends
+all free asset designers and tutorials!
+
+---
+
+[center]This Game was crafted with care by [b]Maze_development[/b]
+Find more games and projects in the future at:
+[b][url]https://maze-dev.itch.io[/url][/b]
+
+Thank you for playing!
+[b]PLEASE REWIND[/b][/center]
+"
+fit_content = true
+horizontal_alignment = 1
+script = ExtResource("2_scroll")
+end_logo = NodePath("CompanyLogo")
+
+[node name="CompanyLogo" type="TextureRect" parent="CreditsText" unique_id=1404764989]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -301.5
+offset_top = -273.0
+offset_right = -21.5
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("6_logo")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="ThanksLabel" type="Label" parent="CreditsText/CompanyLogo" unique_id=1496225114]
+layout_mode = 0
+offset_left = 313.0
+offset_top = 59.0
+offset_right = 607.0
+offset_bottom = 149.0
+theme_override_fonts/font = ExtResource("5_bold")
+text = "thanks for
+playing!"
+label_settings = SubResource("LabelSettings_cred")
+
+[node name="Back" type="Button" parent="CreditsText" unique_id=1105657887]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = 1111.5
+offset_right = 41.5
+offset_bottom = 1148.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_regular")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxFlat_cred")
+text = "Rewind"
+flat = true
+
+[node name="VhsDecor" type="Control" parent="." unique_id=457719330]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PostProcessing" type="Control" parent="." unique_id=1919766817]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScreenError" type="ColorRect" parent="PostProcessing" unique_id=2114933513]
+material = SubResource("ShaderMaterial_vhserr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VhsOverlay" type="ColorRect" parent="PostProcessing" unique_id=1987231736]
+material = SubResource("ShaderMaterial_vhscrt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="pressed" from="CreditsText/Back" to="." method="_on_back_pressed"]

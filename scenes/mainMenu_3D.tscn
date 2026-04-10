@@ -1,0 +1,124 @@
+[gd_scene format=3 uid="uid://dcovjw4lcw6nf"]
+
+[ext_resource type="Script" uid="uid://cm2cypa43nx4q" path="res://scripts/shader.gd" id="1_qw5wh"]
+[ext_resource type="Shader" uid="uid://duxgd11r867kf" path="res://scripts/sky.gdshader" id="2_88nwq"]
+[ext_resource type="Script" uid="uid://p1sp3gybsu3y" path="res://scripts/ocean.gd" id="4_2im6a"]
+[ext_resource type="Shader" uid="uid://bv762j8xskddx" path="res://scripts/water.gdshader" id="5_gho0p"]
+[ext_resource type="PackedScene" uid="uid://cafona0diiu4k" path="res://scenes/boat.tscn" id="7_efs3w"]
+[ext_resource type="PackedScene" uid="uid://om00i1605eeh" path="res://scenes/MainMenu.tscn" id="7_k1wi1"]
+[ext_resource type="PackedScene" uid="uid://mnh4cma3j7w4" path="res://scenes/rig.tscn" id="8_no814"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2lpho"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nakos"]
+noise = SubResource("FastNoiseLite_2lpho")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jh32y"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_be0no"]
+noise = SubResource("FastNoiseLite_jh32y")
+seamless = true
+invert = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_blm8a"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mlgqr"]
+noise = SubResource("FastNoiseLite_blm8a")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j5jx5"]
+shader = ExtResource("2_88nwq")
+shader_parameter/time_scale = 0.5
+shader_parameter/base_color = Color(0.05, 0.05, 0.08, 1)
+shader_parameter/slime_color = Color(0.15, 0.15, 0.2, 1)
+shader_parameter/highlight_color = Color(0.3, 0.35, 0.4, 1)
+shader_parameter/tendril_density = 4.0
+shader_parameter/tendril_thickness = 0.2170000103075
+shader_parameter/animation_speed = 0.8210000389975
+shader_parameter/slime_wetness = 1.3250000629375
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_mlgqr")
+shader_parameter/detail_texture = SubResource("NoiseTexture2D_nakos")
+shader_parameter/highlight_texture = SubResource("NoiseTexture2D_be0no")
+shader_parameter/texture_scale = 0.36200001393512
+shader_parameter/lightning_color = Color(0.82941675, 0.8939333, 0.748547, 1)
+shader_parameter/lightning_frequency = 1.0
+shader_parameter/lightning_intensity = 1.0
+shader_parameter/lightning_branch_count = 5.0
+shader_parameter/lightning_thickness = 0.0030000001425
+
+[sub_resource type="Sky" id="Sky_lpvoh"]
+sky_material = SubResource("ShaderMaterial_j5jx5")
+
+[sub_resource type="Environment" id="Environment_at5dv"]
+background_mode = 2
+sky = SubResource("Sky_lpvoh")
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 8.0
+fog_enabled = true
+fog_light_color = Color(0.23438767, 0.2576339, 0.29380444, 1)
+fog_density = 0.002
+fog_aerial_perspective = 0.594
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bl13t"]
+render_priority = 0
+shader = ExtResource("5_gho0p")
+shader_parameter/out_color = Color(1.0588765e-06, 0.28279033, 0.37846673, 1)
+shader_parameter/amount = 5.0
+shader_parameter/speed = 1.60000002384192
+shader_parameter/beer_factor = 2.095
+shader_parameter/metallic = 0.6
+shader_parameter/specular = 0.5
+shader_parameter/roughness = 0.2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iyx0m"]
+material = SubResource("ShaderMaterial_bl13t")
+size = Vector2(5000, 5000)
+subdivide_width = 500
+subdivide_depth = 500
+
+[node name="Map" type="Node3D" unique_id=366900070]
+script = ExtResource("1_qw5wh")
+
+[node name="Env" type="Node3D" parent="." unique_id=1789871575]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Env" unique_id=348552713]
+transform = Transform3D(-0.52565044, 0.5853265, -0.6173203, -0.78178763, -0.046266973, 0.6218258, 0.3354097, 0.80947655, 0.48192132, 0, 28.422312, 0)
+light_color = Color(0.93779707, 0.9431376, 0.8454826, 1)
+light_angular_distance = 8.26
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Env" unique_id=943782861]
+environment = SubResource("Environment_at5dv")
+
+[node name="Water" type="Node3D" parent="." unique_id=1384433861 node_paths=PackedStringArray("tile1", "tile2")]
+script = ExtResource("4_2im6a")
+tile1 = NodePath("MeshInstance3D")
+tile2 = NodePath("MeshInstance3D2")
+scroll_speed = 10.0
+tile_length = 4995.0
+bob_height = 0.5
+tilt_amount = 0.0
+randomness = 0.4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Water" unique_id=555730265]
+mesh = SubResource("PlaneMesh_iyx0m")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Water" unique_id=2135326973]
+mesh = SubResource("PlaneMesh_iyx0m")
+skeleton = NodePath("../..")
+
+[node name="Boat" parent="Water" unique_id=1672465570 instance=ExtResource("7_efs3w")]
+transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 372.465, 10.204365, 0)
+
+[node name="rig" parent="." unique_id=1787563506 instance=ExtResource("8_no814")]
+transform = Transform3D(1.825, 0, 0, 0, 1.825, 0, 0, 0, 1.825, 0, 24.635866, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=357032836]
+transform = Transform3D(0.9659258, 0, -0.2588191, 0, 1, 0, 0.2588191, 0, 0.9659258, 309.4501, 2.3543606, 110.093994)
+current = true
+
+[node name="MainMenu" parent="." unique_id=1451196330 instance=ExtResource("7_k1wi1")]

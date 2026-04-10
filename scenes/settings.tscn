@@ -1,14 +1,15 @@
-[gd_scene format=3 uid="uid://om00i1605eeh"]
+[gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://bxt7fvrdfui3u" path="res://scripts/menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://0rxelauwdw6g" path="res://scripts/settings.gd" id="1_set"]
 [ext_resource type="Texture2D" uid="uid://ks3x8ui3askl" path="res://textures/blue_screen.webp" id="2_bgscrn"]
 [ext_resource type="FontFile" uid="uid://baj32uqx4sa6f" path="res://fonts/HomeVideo-Regular.ttf" id="3_regular"]
 [ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="4_bold"]
 [ext_resource type="Shader" uid="uid://c0gs4ta81gknx" path="res://scripts/VHS_screen_error._with_static.gdshader" id="5_vhserr"]
 [ext_resource type="Shader" uid="uid://wagabmt5307a" path="res://scripts/VHS_CRT.gdshader" id="6_vhscrt"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_set"]
+bg_color = Color(1, 1, 1, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font_size = 41
@@ -60,17 +61,16 @@ shader_parameter/clip_warp = false
 shader_parameter/vignette_intensity = 0.15
 shader_parameter/vignette_opacity = 0.7750000368125
 
-[node name="MainMenu" type="Control" unique_id=1904954296]
+[node name="Settings" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_menu")
+script = ExtResource("1_set")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1735794875]
-visible = false
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -79,60 +79,44 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_bgscrn")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1136328005]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -25.0
+offset_right = 33.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=898347224]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
 
-[node name="Play" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2051726369]
+[node name="Volume" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_regular")
 theme_override_font_sizes/font_size = 31
-theme_override_styles/focus = SubResource("StyleBoxFlat_menu")
-text = "play"
+theme_override_styles/focus = SubResource("StyleBoxFlat_set")
+text = "Volume"
 flat = true
 
-[node name="Settings" type="Button" parent="MarginContainer/VBoxContainer" unique_id=429622198]
+[node name="Back" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_regular")
 theme_override_font_sizes/font_size = 31
-theme_override_styles/focus = SubResource("StyleBoxFlat_menu")
-text = "Settings"
+theme_override_styles/focus = SubResource("StyleBoxFlat_set")
+text = "Back"
 flat = true
 
-[node name="Credits" type="Button" parent="MarginContainer/VBoxContainer" unique_id=58397956]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_regular")
-theme_override_font_sizes/font_size = 31
-theme_override_styles/focus = SubResource("StyleBoxFlat_menu")
-text = "Credits"
-flat = true
-
-[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer" unique_id=344290710]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("3_regular")
-theme_override_font_sizes/font_size = 31
-theme_override_styles/focus = SubResource("StyleBoxFlat_menu")
-text = "Quit"
-flat = true
-
-[node name="VhsDecor" type="Control" parent="." unique_id=921723160]
+[node name="VhsDecor" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -141,7 +125,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TitleLabel" type="Label" parent="VhsDecor" unique_id=1269527562]
+[node name="TitleLabel" type="Label" parent="VhsDecor"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -153,12 +137,44 @@ offset_bottom = 163.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("4_bold")
 theme_override_font_sizes/font_size = 31
-text = "Anchors End"
+text = "Settings"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TapeSpeedLabel" type="Label" parent="VhsDecor" unique_id=358692659]
+[node name="SelectInfo" type="Label" parent="VhsDecor"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 142.0
+offset_top = -159.0
+offset_right = 298.0
+offset_bottom = -135.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_regular")
+theme_override_font_sizes/font_size = 31
+text = "select: ▲▼"
+label_settings = SubResource("LabelSettings_hud")
+vertical_alignment = 1
+
+[node name="SetInfo" type="Label" parent="VhsDecor"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 142.0
+offset_top = -128.0
+offset_right = 329.0
+offset_bottom = -104.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_regular")
+theme_override_font_sizes/font_size = 31
+text = "set: enter ▶"
+label_settings = SubResource("LabelSettings_hud")
+vertical_alignment = 1
+
+[node name="TapeSpeedLabel" type="Label" parent="VhsDecor"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -178,7 +194,7 @@ label_settings = SubResource("LabelSettings_hud")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="DestinationLabel" type="Label" parent="VhsDecor" unique_id=1535723261]
+[node name="DestinationLabel" type="Label" parent="VhsDecor"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -198,7 +214,7 @@ label_settings = SubResource("LabelSettings_hud")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PostProcessing" type="Control" parent="." unique_id=1285352552]
+[node name="PostProcessing" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -207,7 +223,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScreenError" type="ColorRect" parent="PostProcessing" unique_id=1208149165]
+[node name="ScreenError" type="ColorRect" parent="PostProcessing"]
 material = SubResource("ShaderMaterial_vhserr")
 layout_mode = 1
 anchors_preset = 15
@@ -217,7 +233,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="VhsOverlay" type="ColorRect" parent="PostProcessing" unique_id=262336527]
+[node name="VhsOverlay" type="ColorRect" parent="PostProcessing"]
 material = SubResource("ShaderMaterial_vhscrt")
 layout_mode = 1
 anchors_preset = 15
@@ -227,7 +243,4 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]

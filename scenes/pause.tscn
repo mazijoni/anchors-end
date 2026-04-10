@@ -1,0 +1,209 @@
+[gd_scene format=3 uid="uid://c3bywqnyv51pm"]
+
+[ext_resource type="Script" uid="uid://d1x5fvoymminp" path="res://scripts/pause.gd" id="1_pause"]
+[ext_resource type="Texture2D" uid="uid://ks3x8ui3askl" path="res://textures/blue_screen.webp" id="2_bgscrn"]
+[ext_resource type="FontFile" uid="uid://baj32uqx4sa6f" path="res://fonts/HomeVideo-Regular.ttf" id="3_regular"]
+[ext_resource type="Shader" uid="uid://c0gs4ta81gknx" path="res://scripts/VHS_screen_error._with_static.gdshader" id="4_vhserr"]
+[ext_resource type="Shader" uid="uid://wagabmt5307a" path="res://scripts/VHS_CRT.gdshader" id="5_vhscrt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause"]
+bg_color = Color(1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhserr"]
+shader = ExtResource("4_vhserr")
+shader_parameter/USE_NOISE_TEX = true
+shader_parameter/NOISE_SCALE = Vector2(1, 1)
+shader_parameter/STATIC_SPEED = 2.0
+shader_parameter/NOISE_CONTRAST = 1.2
+shader_parameter/GRAIN_STRENGTH = 0.8
+shader_parameter/SCANLINE_INTENSITY = 0.25
+shader_parameter/SCANLINE_SPEED = 1.0
+shader_parameter/JITTER_STRENGTH = 0.004
+shader_parameter/ABERRATION = 0.4
+shader_parameter/PIXEL_RESOLUTION = Vector2(320, 180)
+shader_parameter/BORDER_COLOR = Color(0, 0, 1, 1)
+shader_parameter/BORDER_LEFT = 0.05
+shader_parameter/BORDER_RIGHT = 0.05
+shader_parameter/BORDER_TOP = 0.05
+shader_parameter/BORDER_BOTTOM = 0.05
+shader_parameter/BORDER_STRENGTH = 0.7
+shader_parameter/BORDER_JIGGLE = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhscrt"]
+shader = ExtResource("5_vhscrt")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.0
+shader_parameter/scanlines_width = 0.0
+shader_parameter/grille_opacity = 0.0
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = false
+shader_parameter/roll = false
+shader_parameter/roll_speed = 1.65
+shader_parameter/roll_size = 0.0
+shader_parameter/roll_variation = 5.0
+shader_parameter/distort_intensity = 0.0990000047025
+shader_parameter/noise_opacity = 0.5690000270275
+shader_parameter/noise_speed = 13.425
+shader_parameter/static_noise_intensity = 0.07600000361
+shader_parameter/aberration = 0.00800004787999997
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.15
+shader_parameter/vignette_opacity = 0.7750000368125
+
+[sub_resource type="LabelSettings" id="LabelSettings_hud"]
+font_size = 26
+
+[node name="PauseMenu" type="Control" unique_id=556149933]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_pause")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=899985889]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bgscrn")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1303653015]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -25.0
+offset_right = 33.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1724782608]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Resume" type="Button" parent="MarginContainer/VBoxContainer" unique_id=214198297]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_regular")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxFlat_pause")
+text = "resume"
+flat = true
+
+[node name="Settings" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1778356764]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_regular")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxFlat_pause")
+text = "settings"
+flat = true
+
+[node name="MainMenu" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1422974370]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_regular")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxFlat_pause")
+text = "main menu"
+flat = true
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer" unique_id=36079155]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_regular")
+theme_override_font_sizes/font_size = 31
+theme_override_styles/focus = SubResource("StyleBoxFlat_pause")
+text = "Quit"
+flat = true
+
+[node name="PostProcessing" type="Control" parent="." unique_id=1173960696]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScreenError" type="ColorRect" parent="PostProcessing" unique_id=2066256319]
+material = SubResource("ShaderMaterial_vhserr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VhsOverlay" type="ColorRect" parent="PostProcessing" unique_id=2030485915]
+material = SubResource("ShaderMaterial_vhscrt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VhsDecor" type="Control" parent="." unique_id=555174361]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatusLabel" type="Label" parent="VhsDecor" unique_id=976979384]
+layout_mode = 1
+offset_left = 141.0
+offset_top = 84.0
+offset_right = 249.0
+offset_bottom = 119.0
+theme_override_fonts/font = ExtResource("3_regular")
+text = "pause ⏸"
+label_settings = SubResource("LabelSettings_hud")
+
+[node name="TapeSpeedLabel" type="Label" parent="VhsDecor" unique_id=2093865818]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -219.0
+offset_top = -116.0
+offset_right = -126.0
+offset_bottom = -92.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_regular")
+text = "slp ◀"
+label_settings = SubResource("LabelSettings_hud")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

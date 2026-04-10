@@ -12,6 +12,7 @@
 [ext_resource type="Material" uid="uid://dwexmwcw8433" path="res://textures/Material/screen_shader.tres" id="9_wslke"]
 [ext_resource type="Script" uid="uid://cos55n00wc4pw" path="res://scripts/label.gd" id="10_wslke"]
 [ext_resource type="Shader" uid="uid://cepetixtn1uka" path="res://scripts/CRT.gdshader" id="11_gw3fx"]
+[ext_resource type="PackedScene" uid="uid://c3bywqnyv51pm" path="res://scenes/pause.tscn" id="pause_scene"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_2lpho"]
 
@@ -129,7 +130,7 @@ shadow_enabled = true
 environment = SubResource("Environment_at5dv")
 
 [node name="Player" parent="." unique_id=201448788 instance=ExtResource("4_be0no")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -8.560388, 25.962759, 0.78771114)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 3.4359741, 25.962759, 5.5756607)
 
 [node name="Water" type="Node3D" parent="." unique_id=1384433861 node_paths=PackedStringArray("tile1", "tile2")]
 script = ExtResource("5_blm8a")
@@ -158,7 +159,7 @@ transform = Transform3D(-1, 0, -1.509958e-07, 0, 1, 0, 1.509958e-07, 0, -1, 372.
 transform = Transform3D(1.825, 0, 0, 0, 1.825, 0, 0, 0, 1.825, 0, 24.635866, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1355471453]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 27.106215, -2.3979151)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 27.106215, -6.7258196)
 size = Vector3(1, 0.7528076, 1)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CSGBox3D" unique_id=1098462282]
@@ -196,3 +197,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=1376039791]
+layer = 10
+
+[node name="PauseMenu" parent="PauseLayer" unique_id=308701834 instance=ExtResource("pause_scene")]
