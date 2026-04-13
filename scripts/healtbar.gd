@@ -1,14 +1,15 @@
 extends Control
+class_name ECGHealthBar
 
 @onready var health_number: Label = $HealthNumber
 
-@export var max_health := 100
-@export var line_width := 2.0
-@export var scan_speed := 600.0
-@export var fade_speed := 2.5
-@export var base_amplitude := 10.0
-@export var max_amplitude := 40.0
-@export var point_spacing := 6
+@export var max_health: int = 100
+@export var line_width: float = 2.0
+@export var scan_speed: float = 600.0
+@export var fade_speed: float = 2.5
+@export var base_amplitude: float = 10.0
+@export var max_amplitude: float = 40.0
+@export var point_spacing: int = 6
 
 const ECG_PATTERN := [
 	0.0, 0.0, 0.0,
@@ -20,19 +21,19 @@ const ECG_PATTERN := [
 	0.0, 0.0, 0.0
 ]
 
-var health := 100
-var scan_x := 0.0
-var pattern_index := 0
+var health: int = 100
+var scan_x: float = 0.0
+var pattern_index: int = 0
 var points: PackedVector2Array = []
 var alphas: PackedFloat32Array = []
-var last_added_x := -INF
+var last_added_x: float = -INF
 
 func _ready():
 	set_process(true)
 	health_number.text = str(health)
 	health_number.modulate = _get_health_color()
 
-func set_health(value: int):
+func set_health(value: int) -> void:
 	health = clamp(value, 0, max_health)
 	if health == 0:
 		health_number.text = "\\\\\\"
@@ -40,7 +41,7 @@ func set_health(value: int):
 		health_number.text = str(health)
 	health_number.modulate = _get_health_color()
 
-func _process(delta):
+func _process(delta: float) -> void:
 	# Fade existing points
 	for i in range(alphas.size()):
 		alphas[i] = max(alphas[i] - fade_speed * delta, 0.0)
@@ -67,7 +68,7 @@ func _process(delta):
 
 	queue_redraw()
 
-func _add_point(x_pos: float):
+func _add_point(x_pos: float) -> void:
 	last_added_x = x_pos
 	var health_ratio := float(health) / max_health
 	var amplitude := base_amplitude + (base_amplitude * (1.0 - health_ratio))

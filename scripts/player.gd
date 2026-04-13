@@ -1,33 +1,33 @@
 extends CharacterBody3D
 
 # Player Nodes
-@onready var head = $Head
-@onready var eyes = $Head/eyes
-@onready var standing_collision_shape = $standing_collision_shape
-@onready var chrouching_collision_shape = $chrouching_collision_shape
-@onready var ray_cast_3d = $RayCast3D
-@onready var animation_player = $"Head/eyes/Arms Center/PSX_First_Person_Arms/AnimationPlayer"
-@onready var arms_senter = $"Head/eyes/Arms Center"
-@onready var ledge_check_forward = $LedgeCheckForward
-@onready var ledge_check_top = $LedgeCheckTop
-@onready var legs_node = $"Head/eyes/Arms Center/PSX_First_Person_Legs"
-@onready var legs_animation_player = $"Head/eyes/Arms Center/PSX_First_Person_Legs/AnimationPlayer"
+@onready var head: Node3D = $Head
+@onready var eyes: Node3D = $Head/eyes
+@onready var standing_collision_shape: CollisionShape3D = $standing_collision_shape
+@onready var chrouching_collision_shape: CollisionShape3D = $chrouching_collision_shape
+@onready var ray_cast_3d: RayCast3D = $RayCast3D
+@onready var animation_player: AnimationPlayer = $"Head/eyes/Arms Center/PSX_First_Person_Arms/AnimationPlayer"
+@onready var arms_senter: Node3D = $"Head/eyes/Arms Center"
+@onready var ledge_check_forward: RayCast3D = $LedgeCheckForward
+@onready var ledge_check_top: RayCast3D = $LedgeCheckTop
+@onready var legs_node: Node3D = $"Head/eyes/Arms Center/PSX_First_Person_Legs"
+@onready var legs_animation_player: AnimationPlayer = $"Head/eyes/Arms Center/PSX_First_Person_Legs/AnimationPlayer"
 
 # Speed Vars
-@export var current_speed = 5.0
-@export var walking_speed = 5.0
-@export var sprinting_speed = 8.0
-@export var crouching_speed = 2.0
-@export var jump_velocity = 4.5
-@export var mouse_sens = 0.5
-@export var lerp_spead = 10.0
-@export var direction = Vector3.ZERO
-@export var crouching_depth = -0.5
+@export var current_speed: float = 5.0
+@export var walking_speed: float = 5.0
+@export var sprinting_speed: float = 8.0
+@export var crouching_speed: float = 2.0
+@export var jump_velocity: float = 4.5
+@export var mouse_sens: float = 0.5
+@export var lerp_spead: float = 10.0
+@export var direction: Vector3 = Vector3.ZERO
+@export var crouching_depth: float = -0.5
 
 # Health
 @export var max_health: int = 100
 @export var health: int = 100
-@onready var health_bar = $Head/eyes/Camera3D/CanvasLayer/ECGHealthBar
+@onready var health_bar: ECGHealthBar = $Head/eyes/Camera3D/CanvasLayer/ECGHealthBar
 
 # Stamina
 @export var max_stamina: float = 100.0
@@ -38,31 +38,31 @@ var stamina: float = max_stamina
 @export var stamina_sprint_threshold: float = 50.0  # must reach this to sprint again
 var stamina_regen_timer: float = 0.0
 var can_sprint: bool = true
-@onready var stamina_bar = $Head/eyes/Camera3D/CanvasLayer/StaminaBar
+@onready var stamina_bar: TextureProgressBar = $Head/eyes/Camera3D/CanvasLayer/StaminaBar
 
 # States
-var walking = false
-var sprinting = false
-var crouching = false
+var walking: bool = false
+var sprinting: bool = false
+var crouching: bool = false
 
 # Punch vars
-var is_punching = false
-var next_punch_is_right = true
-var punch_reset_timer = 0.0
-@export var punch_reset_delay = 1.0
+var is_punching: bool = false
+var next_punch_is_right: bool = true
+var punch_reset_timer: float = 0.0
+@export var punch_reset_delay: float = 1.0
 
 # Head bobbing vars
-@export var head_bobbing_sprinting_speed = 22.0
-@export var head_bobbing_walking_speed = 14.0
-@export var head_bobbing_crouching_speed = 10.0
+@export var head_bobbing_sprinting_speed: float = 22.0
+@export var head_bobbing_walking_speed: float = 14.0
+@export var head_bobbing_crouching_speed: float = 10.0
 
-@export var head_bobbing_sprinting_intensity = 0.2
-@export var head_bobbing_walking_intensity = 0.1
-@export var head_bobbing_crouching_intensity = 0.05
+@export var head_bobbing_sprinting_intensity: float = 0.2
+@export var head_bobbing_walking_intensity: float = 0.1
+@export var head_bobbing_crouching_intensity: float = 0.05
 
-var head_bobbing_vector = Vector2.ZERO
-var head_bobbing_index = 0.0
-var head_bobbing_current_intensity = 0.0
+var head_bobbing_vector: Vector2 = Vector2.ZERO
+var head_bobbing_index: float = 0.0
+var head_bobbing_current_intensity: float = 0.0
 
 # Extra sway/tilt strengths
 @export var head_sway_strength: float = 0.4
@@ -76,25 +76,23 @@ var head_bobbing_current_intensity = 0.0
 var _godmode := false
 
 # Ledge grab vars
-var is_ledge_grabbing := false
-var ledge_top_y := 0.0
-var ledge_grab_yaw := 0.0
-var ledge_release_timer := 0.0
-const LEDGE_RELEASE_COOLDOWN := 0.4
+var is_ledge_grabbing: bool = false
+var ledge_top_y: float = 0.0
+var ledge_grab_yaw: float = 0.0
+var ledge_release_timer: float = 0.0
+const LEDGE_RELEASE_COOLDOWN: float = 0.4
 @export var ledge_grab_look_limit_up: float = 60.0    # max degrees looking up while hanging
 @export var ledge_grab_look_limit_down: float = 25.0  # max degrees looking down while hanging
 @export var ledge_grab_yaw_limit: float = 45.0        # max degrees turning left/right while hanging
 @export var ledge_arm_pitch: float = 35.0             # degrees above horizontal arms aim while hanging
 @export var ledge_hang_offset: float = 1.6            # distance below ledge top the player origin sits
-# Ledge collision layer: set grabbable geometry to collision layer 2
-const LEDGE_COLLISION_MASK := 2
 
 # Vault vars
-var is_vaulting := false
-var vault_onto := false         # true = hop onto obstacle, false = vault completely over
-var vault_timer := 0.0
-var vault_start_pos := Vector3.ZERO
-var vault_end_pos := Vector3.ZERO
+var is_vaulting: bool = false
+var vault_onto: bool = false        # true = hop onto obstacle, false = vault completely over
+var vault_timer: float = 0.0
+var vault_start_pos: Vector3 = Vector3.ZERO
+var vault_end_pos: Vector3 = Vector3.ZERO
 var arms_base_pos_y: float = 0.0
 @export var vault_duration: float = 0.5
 @export var vault_check_distance: float = 1.2   # how far forward to detect obstacle
@@ -127,13 +125,13 @@ func _ready():
 
 # ── Debug command implementations ──────────────────────────────────────────────
 
-func _cmd_sethealth(args) -> String:
+func _cmd_sethealth(args: Array) -> String:
 	if args.is_empty():
 		return "health = %d / %d" % [health, max_health]
 	health = clamp(int(args[0]), 0, max_health)
 	return "Health set to %d" % health
 
-func _cmd_damage(args) -> String:
+func _cmd_damage(args: Array) -> String:
 	if args.is_empty():
 		return "[error] Usage: damage <amount>"
 	var amt := int(args[0])
@@ -142,22 +140,22 @@ func _cmd_damage(args) -> String:
 	health = clamp(health - amt, 0, max_health)
 	return "Dealt %d damage. Health = %d" % [amt, health]
 
-func _cmd_heal(args) -> String:
+func _cmd_heal(args: Array) -> String:
 	if args.is_empty():
 		return "[error] Usage: heal <amount>"
 	var amt := int(args[0])
 	health = clamp(health + amt, 0, max_health)
 	return "Healed %d. Health = %d" % [amt, health]
 
-func _cmd_kill(_args) -> String:
+func _cmd_kill(_args: Array) -> String:
 	health = 0
 	return "Player killed."
 
-func _cmd_godmode(_args) -> String:
+func _cmd_godmode(_args: Array) -> String:
 	_godmode = !_godmode
 	return "Godmode: %s" % ("ON" if _godmode else "OFF")
 
-func _cmd_setspeed(args) -> String:
+func _cmd_setspeed(args: Array) -> String:
 	if args.is_empty():
 		return "walk=%s  sprint=%s  crouch=%s" % [walking_speed, sprinting_speed, crouching_speed]
 	var val := float(args[0])
@@ -166,29 +164,32 @@ func _cmd_setspeed(args) -> String:
 	crouching_speed = val * 0.4
 	return "Walk speed set to %.1f  (sprint=%.1f  crouch=%.1f)" % [walking_speed, sprinting_speed, crouching_speed]
 
-func _cmd_setjump(args) -> String:
+func _cmd_setjump(args: Array) -> String:
 	if args.is_empty():
 		return "jump_velocity = %s" % jump_velocity
 	jump_velocity = float(args[0])
 	return "Jump velocity set to %.1f" % jump_velocity
 
-var _noclip := false
-func _cmd_noclip(_args) -> String:
+var _noclip: bool = false
+func _cmd_noclip(_args: Array) -> String:
 	_noclip = !_noclip
 	if _noclip:
 		standing_collision_shape.disabled = true
 		chrouching_collision_shape.disabled = true
+		motion_mode = MOTION_MODE_FLOATING
 	else:
 		standing_collision_shape.disabled = false
+		chrouching_collision_shape.disabled = false
+		motion_mode = MOTION_MODE_GROUNDED
 	return "Noclip: %s" % ("ON" if _noclip else "OFF")
 
-func _cmd_teleport(args) -> String:
+func _cmd_teleport(args: Array) -> String:
 	if args.size() < 3:
 		return "[error] Usage: teleport <x> <y> <z>"
 	global_position = Vector3(float(args[0]), float(args[1]), float(args[2]))
 	return "Teleported to %s" % global_position
 
-func _cmd_stats(_args) -> String:
+func _cmd_stats(_args: Array) -> String:
 	return """[b]Player Stats[/b]
   health       = %d / %d
   stamina      = %.1f / %.1f
@@ -237,7 +238,7 @@ func _handle_stamina(delta: float) -> void:
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sens))
 		head.rotate_x(deg_to_rad(-event.relative.y * mouse_sens))
@@ -262,6 +263,18 @@ func _physics_process(delta: float) -> void:
 
 	if ledge_release_timer > 0:
 		ledge_release_timer -= delta
+
+	# Noclip: full 6DOF fly mode — skip all grounded movement
+	if _noclip:
+		var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+		var fly_dir := (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y))
+		if Input.is_action_pressed("jump"):
+			fly_dir.y += 1.0
+		if Input.is_action_pressed("crouch"):
+			fly_dir.y -= 1.0
+		velocity = fly_dir.normalized() * sprinting_speed
+		move_and_slide()
+		return
 
 	# Handle vault state — skip all normal movement while vaulting
 	if is_vaulting:
@@ -436,8 +449,8 @@ func _try_vault() -> void:
 	vault_duration = travel / current_speed
 	vault_exit_speed = current_speed
 
-	var anim = legs_animation_player.get_animation("legs_up")
-	var anim_speed = anim.length if anim else 1.0
+	var anim: Animation = legs_animation_player.get_animation("legs_up")
+	var anim_speed: float = anim.length if anim != null else 1.0
 
 	is_vaulting = true
 	vault_timer = 0.0
@@ -546,7 +559,7 @@ func _play_punch():
 		animation_player.play("punch_left")
 	next_punch_is_right = !next_punch_is_right
 
-func _on_animation_finished(anim_name: String):
+func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "punch_right" or anim_name == "punch_left":
 		is_punching = false
 
