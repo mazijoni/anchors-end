@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://3n5vw27gsvem"]
 
 [ext_resource type="Script" uid="uid://ddujw151dgv40" path="res://scripts/player.gd" id="1_3vyb7"]
-[ext_resource type="Texture2D" uid="uid://ca6c6hgv6kn7n" path="res://icon.svg" id="2_fjrip"]
+[ext_resource type="Texture2D" uid="uid://dptxa71uaji1e" path="res://icon.png" id="2_3v2ag"]
 [ext_resource type="Shader" uid="uid://boqebco5rvd7a" path="res://scripts/post-processing.gdshader" id="2_g2els"]
 [ext_resource type="Script" uid="uid://b3ulviqw2wvlr" path="res://scripts/fps.gd" id="3_dqkch"]
 [ext_resource type="FontFile" uid="uid://cflo6gk5l0fd1" path="res://fonts/HomeVideo-Bold.ttf" id="3_qlg0r"]
@@ -5910,7 +5910,7 @@ fov = 60.0
 visible = false
 position = Vector2(416, 292)
 scale = Vector2(6.1093745, 4.3125)
-texture = ExtResource("2_fjrip")
+texture = ExtResource("2_3v2ag")
 
 [node name="ColorRect" type="ColorRect" parent="Head/eyes/Camera3D/CanvasLayer" unique_id=825943605]
 material = SubResource("ShaderMaterial_qhqgy")
